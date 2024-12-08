@@ -1,3 +1,5 @@
+#RPG
+
 import time
 import os
 
@@ -29,10 +31,10 @@ class Personagem(Ser):
     def atk(self, monstro):
         # Polimorfismo: o método atk é implementado para o Personagem
         monstro.vida -= self.dano
-        print(f'{self.nome} desferiu {self.dano} de dano em {monstro.nome}.')
+        print(f'\n{self.nome} desferiu {self.dano} de dano em {monstro.nome}.')
         if monstro.vida < 0:
             monstro.vida = 0
-        print(f'{monstro.nome} agora tem {monstro.vida} pontos de vida.')
+        print(f'\n{monstro.nome} agora tem {monstro.vida} pontos de vida.')
 
     def cura(self):
         self.vida += 20
@@ -46,6 +48,8 @@ class Personagem(Ser):
     def status(self):
         print(f'{self.nome}: Vida={self.vida}, Dano={self.dano}, Nível={self.nivel}')
         print(f'Há {self.item} no inventário de {self.nome}')
+        time.sleep(3)
+        limpar_tela()
 
 
 class Monstro(Ser):
@@ -56,10 +60,10 @@ class Monstro(Ser):
     def atk(self, jogador):
         # Polimorfismo: o método atk é implementado para o Monstro
         jogador.vida -= self.dano
-        print(f'{self.nome} desferiu {self.dano} de dano em {jogador.nome}.')
+        print(f'\n\n{self.nome} desferiu {self.dano} de dano em {jogador.nome}.')
         if jogador.vida < 0:
             jogador.vida = 0
-        print(f'{jogador.nome} agora tem {jogador.vida} pontos de vida.')
+        print(f'\n{jogador.nome} agora tem {jogador.vida} pontos de vida.')
 
     def drop(self):
         # O monstro solta o item quando morre
@@ -93,7 +97,6 @@ class Missao:
         self.nome = nome
 
     def comecar(self, jogador):
-        # Associação: jogador e monstro estão associados à missão
         self.estado = 1
         print(f'Missão {self.nome} iniciada. Objetivo: Derrotar {self.monstro.nome}.')
         while jogador.vida > 0 and self.monstro.vida > 0:
@@ -102,15 +105,25 @@ class Missao:
                 jogador.atk(self.monstro)
                 if self.monstro.vida > 0:
                     self.monstro.atk(jogador)
+                    time.sleep(5)
+                    limpar_tela()
                 else:
                     self.terminar(jogador)
+                    time.sleep(3)
+                    limpar_tela()
             elif opcoes == 2:
                 jogador.cura()
+                time.sleep(3)
+                limpar_tela()
             elif opcoes == 3:
                 print(f'{jogador.nome} fugiu da missão.')
+                time.sleep(1)
+                limpar_tela()
                 break
             else:
                 print('Opção inválida.')
+                time.sleep(1)
+                limpar_tela()
 
     def terminar(self, jogador):
         self.estado = 2
@@ -157,6 +170,8 @@ def escolher_monstro():
     print("1. Gárgula (Vida: 50, Dano: 25)")
     print("2. Dragão (Vida: 100, Dano: 40)")
     escolha = int(input("Escolha o número do monstro: (1) ou (2) "))
+    time.sleep(1)
+    limpar_tela()
 
     if escolha == 1:
         item = Item('Cajado', 'ataque', 10)
@@ -184,7 +199,8 @@ def jogar():
             if personagem is None:
                 print("Você precisa criar um personagem primeiro!")
                 continue
-
+            time.sleep(1)
+            limpar_tela()
             npc.falar()  # O NPC fala com o jogador
 
             # Escolher um monstro para enfrentar
@@ -202,6 +218,8 @@ def jogar():
 
         elif escolha == 4:
             print("Saindo do jogo...")
+            time.sleep(1)
+            limpar_tela()
             break
         else:
             print("Opção inválida, tente novamente.")
